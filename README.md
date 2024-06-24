@@ -4,3 +4,5 @@ This repo contains the offical code for **Self-supervised Denoising and Bulk Mot
 
 ## Overview
 <img title="Overview" alt="Overview" src="figures/pipeline.png">
+
+Checkpoints, example data and ROI labels: [data link](https://drive.google.com/drive/folders/12xubKEdMbBcUJ0Gf_Rz5fGhvo-SRAXKE?usp=sharing) 
