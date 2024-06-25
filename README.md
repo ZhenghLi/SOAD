@@ -10,7 +10,7 @@ This repo contains the offical PyTroch code for **Self-supervised Denoising and 
 
 ## Instructions
 
-Checkpoint, example data and ROI labels are available at [data link](https://drive.google.com/drive/folders/12xubKEdMbBcUJ0Gf_Rz5fGhvo-SRAXKE?usp=sharing) 
+Checkpoint, example data and ROI labels are available at [data link](https://drive.google.com/drive/folders/1DhTWe1PzyWxY3p6A0ZCokx7ilZk2UTm5?usp=sharing) 
 
 `octa_train.py` and `octa_test.py` are for training and testing (inference).
 
