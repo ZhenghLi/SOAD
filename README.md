@@ -18,4 +18,4 @@ Checkpoint, example data and ROI labels are available at [data link](https://dri
 
 ## Acknowledgments
 
-This repo mainly refers to [UDVD](https://github.com/sreyas-mohan/udvd) and [Magic-VNet](https://github.com/Hsuxu/Magic-VNet) for the training scripts and network architecture.
+This repo mainly refers to [Magic-VNet](https://github.com/Hsuxu/Magic-VNet) for the network architecture and [UDVD](https://github.com/sreyas-mohan/udvd) for the training scripts.
