@@ -10,11 +10,13 @@ This repo contains the offical PyTroch code for **Self-supervised Denoising and 
 
 ## Instructions
 
-Checkpoint, example data and ROI labels are available at [data link](https://drive.google.com/drive/folders/1DhTWe1PzyWxY3p6A0ZCokx7ilZk2UTm5?usp=sharing) 
+Checkpoint, example data and ROI labels are available at [data link](https://drive.google.com/drive/folders/1DhTWe1PzyWxY3p6A0ZCokx7ilZk2UTm5?usp=sharing). 
 
-`octa_train.py` and `octa_test.py` are for training and testing (inference).
+For preparation, simply put the shared data folder and the checkpoint file under the root of this repo.
 
-`cnr_msr_normal.py` and `cnr_msr_corrupted.py` are used to calculate CNR and MSR based on the ROI labels and visualize the scores as well as the ROI bounding boxes.
+Run `octa_train.py` and `octa_test.py` for training and testing (inference).
+
+Run `cnr_msr_normal.py` and `cnr_msr_corrupted.py` to calculate CNR and MSR based on the ROI labels and visualize the scores as well as the ROI bounding boxes.
 
 ## Acknowledgments
 
