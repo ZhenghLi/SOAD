@@ -113,7 +113,7 @@ class OCTA(torch.utils.data.Dataset):
 
         bma_path = os.path.join(os.path.join(self.data_path, "OCTA"), target_mask_volume + '_BMA_index.txt')
         bmas = None
-        assert os.path.exists(bma_path)
+        # assert os.path.exists(bma_path)
         if os.path.exists(bma_path):
             bmas = np.loadtxt(bma_path).reshape(-1).astype('int')
 
