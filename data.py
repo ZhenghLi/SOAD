@@ -111,7 +111,7 @@ class OCTA(torch.utils.data.Dataset):
         # assert target_mask_id == index + x
         target_mask_volume = fname.split('_')[0]
 
-        bma_path = os.path.join(os.path.join(self.data_path, "OCTA"), target_mask_volume + '_BMA_std_1.5.txt')
+        bma_path = os.path.join(os.path.join(self.data_path, "OCTA"), target_mask_volume + '_BMA_index.txt')
         bmas = None
         assert os.path.exists(bma_path)
         if os.path.exists(bma_path):
