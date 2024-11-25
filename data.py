@@ -4,7 +4,6 @@ import cv2
 import glob
 import numpy as np
 import torch
-from torchvision import transforms
 import utils
 
 DATASET_REGISTRY = {}
@@ -24,22 +23,22 @@ def register_dataset(name):
     return register_dataset_fn
 
 @register_dataset("OCTA")
-def load_OCTA(data, batch_size=100, num_workers=4, image_size=None, stride=64, n_frames=7):
+def load_OCTA(data, batch_size=100, num_workers=4, image_size=None, stride=64, n_frames=7, padding=True):
     train_dataset = OCTA(data, patch_size=image_size, stride=stride, n_frames=n_frames)
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=num_workers, shuffle=True)
 
-    valid_dataset = OCTA_val(data, n_frames=n_frames)
+    valid_dataset = OCTA_val(data, n_frames=n_frames, padding=padding)
     valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=1, num_workers=num_workers, shuffle=False)
     return train_loader, valid_loader
 
 @register_dataset("OCTA_val")
-def load_OCTA_val(data, num_workers=4, n_frames=7):
-    valid_dataset = OCTA_val(data, n_frames=n_frames)
+def load_OCTA_val(data, num_workers=4, n_frames=7, padding=True):
+    valid_dataset = OCTA_val(data, n_frames=n_frames, padding=padding)
     valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=1, num_workers=num_workers, shuffle=False)
     return valid_loader
 
 class OCTA(torch.utils.data.Dataset):
-    def __init__(self, data_path, patch_size=None, stride=64, n_frames=5):
+    def __init__(self, data_path, patch_size=None, stride=64, n_frames=7):
         super().__init__()
         self.data_path = data_path
         self.size = patch_size
@@ -126,7 +125,7 @@ class OCTA(torch.utils.data.Dataset):
         return Volume, target, flag
 
 class OCTA_val(torch.utils.data.Dataset):
-    def __init__(self, data_path, patch_size=None, n_frames=7):
+    def __init__(self, data_path, patch_size=None, n_frames=7, padding=True):
         super().__init__()
         self.data_path = data_path
         self.size = patch_size
@@ -135,14 +134,19 @@ class OCTA_val(torch.utils.data.Dataset):
         self.nHs = []
         self.nWs = []
         self.n_frames = n_frames
+        self.padding = padding
 
         self.folders = sorted([x for x in glob.glob(os.path.join(data_path, "OCTA/*")) if os.path.isdir(x)])
-        for folder in self.folders:
-            files = sorted(glob.glob(os.path.join(folder, "*.tif")))
-            self.len += (len(files) - n_frames + 1)
-            self.bounds.append(self.len)
-
-        self.transform = transforms.Compose([transforms.ToTensor()])
+        if padding:
+            for folder in self.folders:
+                files = sorted(glob.glob(os.path.join(folder, "*.tif")))
+                self.len += len(files)
+                self.bounds.append(self.len)
+        else:
+            for folder in self.folders:
+                files = sorted(glob.glob(os.path.join(folder, "*.tif")))
+                self.len += (len(files) - n_frames + 1)
+                self.bounds.append(self.len)
 
     def __len__(self):
         return self.len
@@ -157,20 +161,29 @@ class OCTA_val(torch.utils.data.Dataset):
 
         files = sorted(glob.glob(os.path.join(folder, "*.tif")))
 
-        img = cv2.imread(files[index], cv2.IMREAD_GRAYSCALE)
-        (h, w) = np.array(img).shape
-        Img = np.reshape(np.array(img), (h,w,1))
-        Img = self.transform(Img).type(torch.FloatTensor).unsqueeze(1)
-
-        _, fname = os.path.split(files[index+x])
-        # assert int(fname.split('_')[1]) == index + x
-        target_name = fname
-
-        for i in range(1, self.n_frames):
-            img = cv2.imread(files[index + i], cv2.IMREAD_GRAYSCALE)
-            img = np.reshape(np.array(img), (h,w,1))
-            img = self.transform(img).type(torch.FloatTensor).unsqueeze(1)
-            Img = torch.cat((Img, img), dim=1)
+        Img = []
+        if self.padding:
+            for i in range(self.n_frames):
+                j = i - (self.n_frames // 2)
+                img_id = index + j
+                img_id = min(max(0, img_id), len(files) - 1)
+                img = cv2.imread(files[img_id], cv2.IMREAD_GRAYSCALE).astype('float')
+                img = img[None, :, :] / 255
+                img = torch.from_numpy(img).float()
+                Img.append(img)
+            _, fname = os.path.split(files[index])
+            target_name = fname
+        else:
+            for i in range(self.n_frames):
+                img = cv2.imread(files[index + i], cv2.IMREAD_GRAYSCALE).astype('float')
+                img = img[None, :, :] / 255
+                img = torch.from_numpy(img).float()
+                Img.append(img)
+            _, fname = os.path.split(files[index+x])
+            # assert int(fname.split('_')[1]) == index + x
+            target_name = fname
+        
+        Img = torch.stack(Img, dim=1) # C,T,H,W
 
         return Img, target_name
 

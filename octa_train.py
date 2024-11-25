@@ -43,8 +43,8 @@ def main(args):
 
     train_loader, valid_loader = data.build_dataset(args.dataset, args.data_path, batch_size=args.batch_size,
                                                     image_size=args.image_size, stride=args.stride,
-                                                    n_frames=args.n_frames)  # , stride=args.stride
-
+                                                    n_frames=args.n_frames, padding=args.padding)
+    
     # Track moving average of loss values
     train_meters = {name: utils.RunningAverageMeter(0.98) for name in (["train_loss"])}
 
@@ -133,6 +133,8 @@ def get_args():
     parser.add_argument("--gamma", default=3, type=float, help="gamma")
     parser.add_argument("--epsilon", default=0.5, type=float, help="epsilon")
 
+    # Add validation arguments
+    parser.add_argument("--padding", default=True, type=bool, help="whether to replicate the boundary B-scans during validation")
 
     args = parser.parse_args()
     return args
