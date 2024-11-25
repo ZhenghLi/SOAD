@@ -134,7 +134,7 @@ def get_args():
     parser.add_argument("--epsilon", default=0.5, type=float, help="epsilon")
 
     # Add validation arguments
-    parser.add_argument("--padding", default=True, type=bool, help="whether to replicate the boundary B-scans during validation")
+    parser.add_argument("--padding", action='store_true', help="whether to replicate the boundary B-scans during validation")
 
     args = parser.parse_args()
     return args

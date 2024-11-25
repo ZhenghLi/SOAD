@@ -14,9 +14,11 @@ Checkpoint, example data and ROI labels are available at [data link](https://dri
 
 For preparation, simply put the shared data folder and the checkpoint file under the root of this repo.
 
-To train or test on custom dataset, put the volumes under `data/OCTA/[custom volume folders]`.
+To train or test on custom datasets, put the volumes under `data/OCTA/[custom volume folders]`.
 
-Run `octa_train.py` and `octa_test.py` for training and testing (inference). Setting `--padding` as `True` can keep the boundary B-scans by replicating them during testing.
+Run `octa_train.py` and `octa_test.py` for training and testing (inference). 
+
+Run `octa_test.py --padding` can keep the boundary B-scans after inference by padding the input volumes.
 
 Run `cnr_msr_normal.py` and `cnr_msr_corrupted.py` to calculate CNR and MSR based on the ROI labels and visualize the scores as well as the ROI bounding boxes.
 

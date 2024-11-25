@@ -51,7 +51,7 @@ def get_args():
     parser.add_argument("--data-path", default="data", help="path to data directory")
     parser.add_argument("--dataset", default="OCTA_val", help="train dataset name")
     parser.add_argument("--n-frames", default=7, type=int, help="number of frames for training")
-    parser.add_argument("--padding", default=True, type=bool, help="whether to replicate the boundary B-scans during inference")
+    parser.add_argument("--padding", action='store_true', help="whether to replicate the boundary B-scans during inference")
     parser.add_argument("--ckpt", default='ckpt_14.pth', help="path to checkpoint")
 
     args = parser.parse_args()
