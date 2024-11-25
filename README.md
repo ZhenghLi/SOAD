@@ -18,7 +18,7 @@ To train or test on custom datasets, put the volumes under `data/OCTA/[custom vo
 
 Run `octa_train.py` and `octa_test.py` for training and testing (inference). 
 
-Run `octa_test.py --padding` can keep the boundary B-scans after inference by padding the input volumes.
+Run `octa_test.py --padding` to keep the boundary B-scans after inference by padding the input volumes.
 
 Run `cnr_msr_normal.py` and `cnr_msr_corrupted.py` to calculate CNR and MSR based on the ROI labels and visualize the scores as well as the ROI bounding boxes.
 
