@@ -14,7 +14,7 @@ Checkpoint, example data and ROI labels are available at [data link](https://dri
 
 For preparation, simply put the shared data folder and the checkpoint file under the root of this repo.
 
-To train or test on custom datasets, put the volumes under `data/OCTA/[custom volume folders]` and (optional) put the indices (split by spaces) of pre-estimated corrupted B-scans in `data/OCTA/[volume folder name]_BMA_index.txt`.
+To train or test on custom datasets, put the volumes under `data/OCTA/[custom volume folders]` and (optional) put the indices (split by spaces) of the estimated corrupted B-scans in `data/OCTA/[volume folder name]_BMA_index.txt`.
 
 ## Instructions
 
