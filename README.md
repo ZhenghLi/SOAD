@@ -8,13 +8,15 @@ This repo contains the offical PyTroch code for **Self-supervised Denoising and 
 ## Result
 <img title="Result" alt="Result" src="figures/result.png">
 
-## Instructions
+## Data Preparation
 
 Checkpoint, example data and ROI labels are available at [data link](https://drive.google.com/drive/folders/1DhTWe1PzyWxY3p6A0ZCokx7ilZk2UTm5?usp=sharing). 
 
 For preparation, simply put the shared data folder and the checkpoint file under the root of this repo.
 
 To train or test on custom datasets, put the volumes under `data/OCTA/[custom volume folders]` and (optional) put the indices (split by spaces) of pre-estimated corrupted B-scans in `data/OCTA/[volume folder name]_BMA_index.txt`.
+
+## Instructions
 
 Run `octa_train.py` and `octa_test.py` for training and testing (inference). 
 
